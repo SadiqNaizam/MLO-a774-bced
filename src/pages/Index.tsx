@@ -8,8 +8,38 @@ import ClientRespondsGraph from '@/components/Dashboard/ClientRespondsGraph';
 import ClientRespondsPieChart from '@/components/Dashboard/ClientRespondsPieChart';
 import UserRatingTable from '@/components/Dashboard/UserRatingTable';
 import RecentActivityFeed from '@/components/Dashboard/RecentActivityFeed';
+import { useAuth } from '@/lib/AuthContext'; // Path to the new AuthContext
+import { Button } from '@/components/ui/button';
+import { LogIn } from 'lucide-react';
 
 const DashboardPage: React.FC = () => {
+  const { isAuthenticated, login } = useAuth();
+
+  if (!isAuthenticated) {
+    return (
+      <MainAppLayout> {/* MainAppLayout provides AuthProvider */}
+        <div className="flex flex-col items-center justify-center min-h-[calc(100vh-var(--header-height,4rem)-var(--main-padding,2rem))] p-4 text-center">
+           {/* Adjust height calculation if needed, assuming header is ~4rem, main padding ~2rem total vertically */}
+          <h1 className="text-3xl font-bold text-foreground mb-4">Welcome to DataAI</h1>
+          <p className="text-lg text-muted-foreground mb-8">
+            Please log in to access your dashboard and insights.
+          </p>
+          <Button onClick={login} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
+            <LogIn className="mr-2 h-5 w-5" />
+            Log In (Simulated)
+          </Button>
+          <p className="mt-6 text-sm text-muted-foreground">
+            <strong>Note:</strong> This is a simulated login experience.
+            <br />
+            Full Microsoft (MSAL) authentication requires additional setup and dependencies
+            <br />
+            that cannot be added automatically in this environment.
+          </p>
+        </div>
+      </MainAppLayout>
+    );
+  }
+
   return (
     <MainAppLayout>
       <div className="space-y-6">
